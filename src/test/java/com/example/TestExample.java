@@ -14,6 +14,7 @@ public class TestExample {
    @Test
    public void test() throws InterruptedException {
       List<String> entryPoint = new ArrayList<>();
+      entryPoint.add("/bin/sh");
       entryPoint.add("bin/server.sh");
 
       ImageFromDockerfile image = new ImageFromDockerfile();
@@ -21,7 +22,7 @@ public class TestExample {
       image.withDockerfileFromBuilder(builder -> {
          builder.from("jboss/base-jdk:11");
          builder.copy("bin", "/opt/jboss/bin");
-         builder.entryPoint(entryPoint.toArray(new String[]{}));
+         builder.cmd(entryPoint.toArray(new String[]{}));
          builder.build();
       });
       GenericContainer container = new GenericContainer(image);
